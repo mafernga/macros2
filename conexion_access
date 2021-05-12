@@ -1,0 +1,33 @@
+Sub ConsultarInversiones()
+Dim cn As Object
+Dim consultaSQL As String
+Dim conexion As String
+Dim Rs As Object
+
+Set Rs = CreateObject("ADODB.recordSet")
+Set cn = CreateObject("ADODB.Connection")
+conexion = "Provider=Microsoft.ACE.OLEDB.12.0;" & _
+        "Data Source=D:\inversiones.mdb"
+        
+consultaSQL = "Select * from Clientes T1 INNER JOIN Inversiones T2 ON T1.ID = T2.ID  WHERE T1.TipoID like 'NIT';"
+'consultaSQL = "Select * from Clientes WHERE TipoID like 'NIT';"
+
+cn.Open conexion
+
+
+Rs.Open consultaSQL, cn
+
+
+'=>Copiar los datos en una hoja
+ Hoja2.Range("A2").CopyFromRecordset Rs
+
+'Cerrar Recordset
+ Rs.Close
+ Set Rs = Nothing
+'Cerrar Connection
+ cn.Close
+ Set cn = Nothing
+
+
+
+End Sub
